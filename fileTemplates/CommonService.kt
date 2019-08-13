@@ -25,6 +25,11 @@ interface ${upperName}Api {
     @Headers(WindConstants.CONTENT_TYPE_JSON, WindConstants.APP_ID, WindConstants.API_KEY)
     @GET("1/classes/${upperName}Model/{objectId}")
     suspend fun get${upperName}(@Path("objectId") objectId: String): ${upperName}Model
+
+    @Headers(WindConstants.CONTENT_TYPE_JSON, WindConstants.APP_ID, WindConstants.API_KEY)
+    @DELETE("1/classes/${upperName}Model/{objectId}")
+    suspend fun delete${upperName}(@Path("objectId") objectId: String): ApiBean.OkResponse
+
 }
 
 object ${NAME}:BaseService() {
@@ -49,6 +54,11 @@ object ${NAME}:BaseService() {
 
     suspend fun get${upperName}(${lowerName}Id:String, next:(${upperName}Model)->Unit) {
         next(ApiManager.${lowerName}Api.get${upperName}(${lowerName}Id))
+    }
+
+    suspend fun delete${upperName}(${lowerName}Id: String, next: () -> Unit) {
+        ApiManager.${lowerName}Api.delete${upperName}(${lowerName}Id)
+        next()
     }
 
 }
